@@ -1,11 +1,14 @@
+
 <?php
 // echo "hello";
 require "db/db.php";
 
 require_once 'db/config.php';
+$loggedin = true;
 if(!isset($_SESSION['user_token']) AND !isset($_SESSION['email'])){
-    header("location: ../login.php");
-    die();
+    // header("location: login.php");
+    $loggedin=false;
+    // die();
   }else{
 if(isset($_SESSION['user_token'])){
 
@@ -27,7 +30,6 @@ else{
   }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,45 +44,47 @@ else{
 <title>Agrotek – Agriculture HTML Template</title>
 
 <!-- favicon icon -->
-<link rel="shortcut icon" href="images/favicon.png" />
+<link rel="shortcut icon" href="main/images/favicon.png" />
 
 <!-- bootstrap -->
-<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="main/css/bootstrap.min.css"/>
 
 <!-- animate -->
-<link rel="stylesheet" type="text/css" href="css/animate.css"/>
+<link rel="stylesheet" type="text/css" href="main/css/animate.css"/>
 
 <!-- slick-slider -->
-<link rel="stylesheet" type="text/css" href="css/slick.css">
+<link rel="stylesheet" type="text/css" href="main/css/slick.css">
 
-<link rel="stylesheet" type="text/css" href="css/slick-theme.css">
+<link rel="stylesheet" type="text/css" href="main/css/slick-theme.css">
 
 <!-- fontawesome -->
-<link rel="stylesheet" type="text/css" href="css/font-awesome.css"/>
+<link rel="stylesheet" type="text/css" href="main/css/font-awesome.css"/>
 
 <!-- themify -->
-<link rel="stylesheet" type="text/css" href="css/themify-icons.css"/>
+<link rel="stylesheet" type="text/css" href="main/css/themify-icons.css"/>
 
 <!-- flaticon -->
-<link rel="stylesheet" type="text/css" href="css/flaticon.css"/>
+<link rel="stylesheet" type="text/css" href="main/css/flaticon.css"/>
 
 
 <!-- REVOLUTION LAYERS STYLES -->
 
-    <link rel="stylesheet" type="text/css" href="revolution/css/rs6.css">
+    <link rel="stylesheet" type="text/css" href="main/revolution/css/rs6.css">
 
 <!-- prettyphoto -->
-<link rel="stylesheet" type="text/css" href="css/prettyPhoto.css">
+<link rel="stylesheet" type="text/css" href="main/css/prettyPhoto.css">
 
 <!-- shortcodes -->
-<link rel="stylesheet" type="text/css" href="css/shortcodes.css"/>
+<link rel="stylesheet" type="text/css" href="main/css/shortcodes.css"/>
 
 <!-- main -->
-<link rel="stylesheet" type="text/css" href="css/main.css"/>
+<link rel="stylesheet" type="text/css" href="main/css/main.css"/>
 
 <!-- responsive -->
-<link rel="stylesheet" type="text/css" href="css/responsive.css"/>
+<link rel="stylesheet" type="text/css" href="main/css/responsive.css"/>
+<style>
 
+</style>
 </head>
 
 <body>
@@ -139,7 +143,7 @@ else{
                                         <!-- site-branding -->
                                         <div class="site-branding mr-auto">
                                             <a class="home-link" href="index-2.html" title="Agrotek" rel="home">
-                                                <img src="images/logo.png" id="logo-img" class="img-center" alt="logo">
+                                                <img src="main/images/logo.png" id="logo-img" class="img-center" alt="logo">
                                             </a>
                                         </div><!-- site-branding end -->
                                         <!-- widget-info -->
@@ -175,9 +179,156 @@ else{
                         <div class="site-header-menu-inner ttm-stickable-header">
                             <div class="container">
                                 <!--site-navigation -->
+                                        <?php
+                                        if($loggedin==true){
+                                            ?>
                                 <div id="site-navigation" class="site-navigation">
                                     <div class="ttm-custombutton">
-                                       <a href="#" class="ttm-btn ttm-btn-size-md ttm-btn-bgcolor-skincolor"> Request for quote</a>
+                                       <a href="#" class="ttm-btn ttm-btn-size-md ttm-btn-bgcolor-skincolor"> <?php
+                                            echo $userinfo['fullname'];
+                                       ?></a>
+                                    </div>
+                                    <!-- header-icons -->
+                                    <div class="ttm-header-icons ">
+                                        <span class="ttm-header-icon ttm-header-cart-link">
+                                            <a href="main/myprofile.php">
+                                                <div id="user">
+                                            <!-- <div class="col-md-6 mb-4" id="main_userimg"> -->
+                                                <?php 
+                                                if(!isset($userinfo['picture'])){
+                                                ?>
+                                                <img
+                                                class="rounded-circle z-depth-2"
+                                                alt="100x100"
+                                                style="width: 2.5rem;"
+                                                src="https://mdbootstrap.com/img/Photos/Avatars/img%20(31).jpg"
+                                                data-holder-rendered="true"
+                                                id="sub_userimg"
+                                                />
+                                                <?php
+                                                }else{
+                                                    ?>
+                                                    <img
+                                                class="rounded-circle z-depth-2"
+                                                alt="100x100"
+                                                style="width: 2.5rem;"
+                                                src="<?php echo $userinfo['picture']; ?>"
+                                                data-holder-rendered="true"
+                                                id="sub_userimg"
+                                                />
+                                                    <?php
+                                                }
+                                                ?>
+                                          
+                                            
+                                        </div>
+                                            </a>
+                                        </span>
+                                        <div class="ttm-header-icon ttm-header-search-link">
+                                            <a href="#" class="sclose"><i class="ti ti-search"></i></a>
+                                            <div class="ttm-search-overlay">
+                                                <div class="ttm-bg-layer"></div>
+                                                <div class="ttm-icon-close"></div>
+                                                <div class="ttm-search-outer">
+                                                    <form method="get" class="ttm-site-searchform" action="#">
+                                                        <input type="search" class="field searchform-s" name="s" placeholder="Type Word Then Enter...">
+                                                        <button type="submit">
+                                                            <i class="ti ti-search"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- header-icons end -->
+                                    <div class="ttm-menu-toggle">
+                                        <input type="checkbox" id="menu-toggle-form" />
+                                        <label for="menu-toggle-form" class="ttm-menu-toggle-block">
+                                            <span class="toggle-block toggle-blocks-1"></span>
+                                            <span class="toggle-block toggle-blocks-2"></span>
+                                            <span class="toggle-block toggle-blocks-3"></span>
+                                        </label>
+                                    </div>
+                                    <nav id="menu" class="menu">
+                                        <ul class="dropdown">
+                                           <li class="active"><a href="#">Home</a>
+                                                <ul>
+                                                    <li><a href="index-2.html">Homepage 1</a></li>
+                                                    <li class="active"><a href="home-2.html">Homepage 2</a></li>
+                                                    <li><a href="home-3.html">Homepage 3</a></li>
+                                                    <li><a href="home-4.html">Homepage 4<span class="label-new">New</span></a></li>
+                                                    <li><a href="#">Header Styles</a>
+                                                        <ul>
+                                                            <li><a href="index-2.html">Header Style 01</a></li>
+                                                            <li><a target="_blank" href="header-style-02.html">Header Style 02</a></li>
+                                                            <li><a target="_blank" href="header-style-03.html">Header Style 03</a></li>
+                                                            <li><a target="_blank" href="header-style-04.html">Header Style 04</a></li>
+                                                            <li><a target="_blank" href="header-style-05.html">Header Style 05</a></li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="#">Pages</a>
+                                                <ul>
+                                                    <li><a href="aboutus-01.html">About Us 1</a></li>
+                                                    <li><a href="aboutus-02.html">About Us 2</a></li>
+                                                    <li><a href="services-01.html">Services 1</a></li>
+                                                    <li><a href="services-02.html">Services 2</a></li>
+                                                    <li><a href="contact.html">Contact Us</a></li>
+                                                    <li><a href="our-expert.html">Our Team</a></li>
+                                                    <li><a href="faq.html">FAQs</a></li>
+                                                    <li><a href="error.html">Error Page</a></li>
+                                                    <li><a href="element.html">Elements</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="#">Services</a>
+                                                <ul>
+                                                    <li><a href="lawn-garden-care.html">Lawn & Garden Care</a></li>
+                                                    <li><a href="stone-hardscaping.html">Stone & Hardscaping</a></li>
+                                                    <li><a href="forest-tree-planting.html">Forest & Tree Planting</a></li>
+                                                    <li><a href="watering-systems.html">Watering Systems</a></li>
+                                                    <li><a href="preparing-landscape.html">Preparing Landscape</a></li>
+                                                    <li><a href="irrigation-drainage.html">Irrigation & Drainage</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="#">Project</a>
+                                                <ul>
+                                                    <li><a href="project-style-01.html">Project Style 1</a></li>
+                                                    <li><a href="project-style-02.html">Project Style 2</a></li>
+                                                    <li><a href="#">Project Details</a>
+                                                        <ul>
+                                                            <li><a href="detail-style-01.html">Detail Style 1</a></li>
+                                                            <li><a href="detail-style-02.html">Detail Style 2</a></li>
+                                                            <li><a href="detail-style-03.html">Detail Style 3</a></li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="#">Blog</a>
+                                                <ul>
+                                                    <li><a href="blog.html">Blog Classic</a></li>
+                                                    <li><a href="blog-grid.html">Blog Grid View</a></li>
+                                                    <li><a href="blog-top-image.html">Blog Top Image</a></li>
+                                                    <li><a href="blog-left-image.html">Blog Left Image</a></li>
+                                                    <li><a href="single-blog.html">Blog Single View</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="#">Shop</a>
+                                                <ul>
+                                                    <li><a href="shop.html">Default Shop</a></li>
+                                                    <li><a href="product-details.html">Single Product Details</a></li>
+                                                    <li><a href="cart.html">Cart</a></li>
+                                                    <li><a href="checkout.html">Checkout</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div><!-- site-navigation end-->
+                                <?php
+                                        }else{
+                                        ?>
+                                <div id="site-navigation" class="site-navigation">
+                                    <div class="ttm-custombutton">
+                                       <a href="login.php" class="ttm-btn ttm-btn-size-md ttm-btn-bgcolor-skincolor">Login</a>
                                     </div>
                                     <!-- header-icons -->
                                     <div class="ttm-header-icons ">
@@ -285,6 +436,9 @@ else{
                                         </ul>
                                     </nav>
                                 </div><!-- site-navigation end-->
+                                        <?php
+                                        }
+                                        ?>
                             </div>
                         </div>
                     </div>
@@ -296,8 +450,8 @@ else{
         <rs-module-wrap id="rev_slider_2_1_wrapper" data-source="gallery">
             <rs-module id="rev_slider_2_1" data-version="6.1.2" class="rev_slider_2_1_height">
                 <rs-slides>
-                    <rs-slide data-key="rs-3" data-title="Slide" data-thumb="images/slides/slider-mainbg-003.jpg" data-anim="ei:d;eo:d;s:d;r:0;t:slotslide-horizontal;sl:d;">
-                        <img src="images/slides/slider-mainbg-003.jpg" title="sliderbg-03" width="1920" height="725" class="rev-slidebg" data-no-retina>
+                    <rs-slide data-key="rs-3" data-title="Slide" data-thumb="main/images/slides/slider-mainbg-003.jpg" data-anim="ei:d;eo:d;s:d;r:0;t:slotslide-horizontal;sl:d;">
+                        <img src="main/images/slides/slider-mainbg-003.jpg" title="sliderbg-03" width="1920" height="725" class="rev-slidebg" data-no-retina>
                         <rs-layer
                             id="slider-2-slide-1-layer-1"
                             class="head-font" 
@@ -368,9 +522,9 @@ else{
                             >CONTACT US! 
                         </a>
                     </rs-slide>
-                    <rs-slide data-key="rs-4" data-title="Slide" data-thumb="images/slides/slider-mainbg-004.jpg" data-anim="ei:d;eo:d;s:d;r:0;t:slotslide-horizontal;sl:d;">
+                    <rs-slide data-key="rs-4" data-title="Slide" data-thumb="main/images/slides/slider-mainbg-004.jpg" data-anim="ei:d;eo:d;s:d;r:0;t:slotslide-horizontal;sl:d;">
                         
-                        <img src="images/slides/slider-mainbg-004.jpg" title="sliderbg-04" width="1920" height="725" class="rev-slidebg" data-no-retina>
+                        <img src="main/images/slides/slider-mainbg-004.jpg" title="sliderbg-04" width="1920" height="725" class="rev-slidebg" data-no-retina>
                         
                         <rs-layer
                             id="slider-2-slide-2-layer-1"
@@ -572,10 +726,10 @@ else{
                         <div class="col-lg-6">
                             <!-- ttm_single_image-wrapper -->
                             <div class="ttm_single_image-wrapper">
-                                <img class="img-fluid ml-35 res-1199-ml-0" src="images/single-img-two.jpg" title="single-img-two" alt="single-img-two">
+                                <img class="img-fluid ml-35 res-1199-ml-0" src="main/images/single-img-two.jpg" title="single-img-two" alt="single-img-two">
                             </div><!-- ttm_single_image-wrapper end -->
                             <div class="about-overlay-01">
-                                <img src="images/pattern.png" alt="pattern">
+                                <img src="main/images/pattern.png" alt="pattern">
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -944,7 +1098,7 @@ else{
                             <div class="ttm-processbox-wrapper">
                                 <div class="ttm-processbox text-center">
                                     <div class="ttm-box-image">
-                                        <img class="img-fluid" src="images/step-one.jpg" alt="step-one" title="step-one">
+                                        <img class="img-fluid" src="main/images/step-one.jpg" alt="step-one" title="step-one">
                                         <div class="process-num">
                                             <span class="number">01</span>
                                         </div>
@@ -956,7 +1110,7 @@ else{
                                 </div>
                                 <div class="ttm-processbox text-center">
                                     <div class="ttm-box-image">
-                                        <img class="img-fluid" src="images/step-two.jpg" alt="step-two" title="step-two">
+                                        <img class="img-fluid" src="main/images/step-two.jpg" alt="step-two" title="step-two">
                                         <div class="process-num">
                                             <span class="number">02</span>
                                         </div>
@@ -968,7 +1122,7 @@ else{
                                 </div>
                                 <div class="ttm-processbox text-center">
                                     <div class="ttm-box-image">
-                                        <img class="img-fluid" src="images/step-three.jpg" alt="step-three" title="step-three">
+                                        <img class="img-fluid" src="main/images/step-three.jpg" alt="step-three" title="step-three">
                                         <div class="process-num">
                                             <span class="number">03</span>
                                         </div>
@@ -980,7 +1134,7 @@ else{
                                 </div>
                                 <div class="ttm-processbox text-center">
                                     <div class="ttm-box-image">
-                                        <img class="img-fluid" src="images/step-four.jpg" alt="step-four" title="step-four">
+                                        <img class="img-fluid" src="main/images/step-four.jpg" alt="step-four" title="step-four">
                                         <div class="process-num">
                                             <span class="number">04</span>
                                         </div>
@@ -1215,7 +1369,7 @@ else{
                             <!-- featured-imagebox-team -->
                             <div class="featured-imagebox featured-imagebox-team style2 mb-10">
                                 <div class="featured-thumbnail"><!-- featured-thumbnail -->
-                                    <img class="img-fluid" src="images/team-member/team-img01.jpg" alt="image">
+                                    <img class="img-fluid" src="main/images/team-member/team-img01.jpg" alt="image">
                                 </div> 
                                 <div class="featured-content box-shadow">
                                     <div class="ttm-social-links-wrapper">
@@ -1236,7 +1390,7 @@ else{
                             <!-- featured-imagebox-team -->
                             <div class="featured-imagebox featured-imagebox-team style2 mb-10">
                                 <div class="featured-thumbnail"><!-- featured-thumbnail -->
-                                    <img class="img-fluid" src="images/team-member/team-img02.jpg" alt="image">
+                                    <img class="img-fluid" src="main/images/team-member/team-img02.jpg" alt="image">
                                 </div> 
                                 <div class="featured-content box-shadow">
                                     <div class="ttm-social-links-wrapper">
@@ -1257,7 +1411,7 @@ else{
                             <!-- featured-imagebox-team -->
                             <div class="featured-imagebox featured-imagebox-team style2 mb-10">
                                 <div class="featured-thumbnail"><!-- featured-thumbnail -->
-                                    <img class="img-fluid" src="images/team-member/team-img03.jpg" alt="image">
+                                    <img class="img-fluid" src="main/images/team-member/team-img03.jpg" alt="image">
                                 </div> 
                                 <div class="featured-content box-shadow">
                                     <div class="ttm-social-links-wrapper">
@@ -1278,7 +1432,7 @@ else{
                             <!-- featured-imagebox-team -->
                             <div class="featured-imagebox featured-imagebox-team style2 mb-10">
                                 <div class="featured-thumbnail"><!-- featured-thumbnail -->
-                                    <img class="img-fluid" src="images/team-member/team-img04.jpg" alt="image">
+                                    <img class="img-fluid" src="main/images/team-member/team-img04.jpg" alt="image">
                                 </div> 
                                 <div class="featured-content box-shadow">
                                     <div class="ttm-social-links-wrapper">
@@ -1318,7 +1472,7 @@ else{
                                             <div class="client-box ttm-box-view-boxed-logo">
                                                 <div class="client">
                                                     <div>
-                                                        <img class="img-fluid" src="images/client/client-01.png" alt="image">
+                                                        <img class="img-fluid" src="main/images/client/client-01.png" alt="image">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1327,7 +1481,7 @@ else{
                                             <div class="client-box ttm-box-view-boxed-logo">
                                                 <div class="client">
                                                     <div>
-                                                        <img class="img-fluid" src="images/client/client-02.png" alt="image">
+                                                        <img class="img-fluid" src="main/images/client/client-02.png" alt="image">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1336,7 +1490,7 @@ else{
                                             <div class="client-box ttm-box-view-boxed-logo">
                                                 <div class="client">
                                                     <div>
-                                                        <img class="img-fluid" src="images/client/client-03.png" alt="image">
+                                                        <img class="img-fluid" src="main/images/client/client-03.png" alt="image">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1345,7 +1499,7 @@ else{
                                             <div class="client-box ttm-box-view-boxed-logo">
                                                 <div class="client">
                                                     <div>
-                                                        <img class="img-fluid" src="images/client/client-04.png" alt="image">
+                                                        <img class="img-fluid" src="main/images/client/client-04.png" alt="image">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1354,7 +1508,7 @@ else{
                                             <div class="client-box ttm-box-view-boxed-logo">
                                                 <div class="client">
                                                     <div>
-                                                        <img class="img-fluid" src="images/client/client-05.png" alt="image">
+                                                        <img class="img-fluid" src="main/images/client/client-05.png" alt="image">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1363,7 +1517,7 @@ else{
                                             <div class="client-box ttm-box-view-boxed-logo">
                                                 <div class="client">
                                                     <div>
-                                                        <img class="img-fluid" src="images/client/client-04.png" alt="image">
+                                                        <img class="img-fluid" src="main/images/client/client-04.png" alt="image">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1372,7 +1526,7 @@ else{
                                             <div class="client-box ttm-box-view-boxed-logo">
                                                 <div class="client">
                                                     <div>
-                                                        <img class="img-fluid" src="images/client/client-05.png" alt="image">
+                                                        <img class="img-fluid" src="main/images/client/client-05.png" alt="image">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1502,7 +1656,7 @@ else{
                             <!-- featured-imagebox-blog -->
                             <div class="featured-imagebox featured-imagebox-blog style1 box-shadow">
                                 <div class="featured-thumbnail"><!-- featured-thumbnail -->
-                                    <img class="img-fluid" src="images/blog/04.jpg" alt="">
+                                    <img class="img-fluid" src="main/images/blog/04.jpg" alt="">
                                     <div class="blog-icon">
                                         <i class="ti ti-pencil"></i>
                                     </div>
@@ -1522,7 +1676,7 @@ else{
                             <!-- featured-imagebox-blog -->
                             <div class="featured-imagebox featured-imagebox-blog style1 box-shadow">
                                 <div class="featured-thumbnail"><!-- featured-thumbnail -->
-                                    <img class="img-fluid" src="images/blog/07.jpg" alt="">
+                                    <img class="img-fluid" src="main/images/blog/07.jpg" alt="">
                                     <div class="blog-icon">
                                         <i class="ti ti-pencil"></i>
                                     </div>
@@ -1542,7 +1696,7 @@ else{
                             <!-- featured-imagebox-blog -->
                             <div class="featured-imagebox featured-imagebox-blog style1 box-shadow">
                                 <div class="featured-thumbnail"><!-- featured-thumbnail -->
-                                    <img class="img-fluid" src="images/blog/06.jpg" alt="">
+                                    <img class="img-fluid" src="main/images/blog/06.jpg" alt="">
                                     <div class="blog-icon">
                                         <i class="ti ti-pencil"></i>
                                     </div>
@@ -1562,7 +1716,7 @@ else{
                             <!-- featured-imagebox-blog -->
                             <div class="featured-imagebox featured-imagebox-blog style1 box-shadow">
                                 <div class="featured-thumbnail"><!-- featured-thumbnail -->
-                                    <img class="img-fluid" src="images/blog/07.jpg" alt="">
+                                    <img class="img-fluid" src="main/images/blog/07.jpg" alt="">
                                     <div class="blog-icon">
                                         <i class="ti ti-pencil"></i>
                                     </div>
@@ -1586,122 +1740,9 @@ else{
         </div><!--site-main end-->
 
         <!--footer start-->
-        <footer class="footer widget-footer clearfix">
-            <div class="first-footer">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class="cta_wrapper">
-                                <div class="ttm-quicklink-box">
-                                   <div class="ttm-leftlink-box">
-                                       <h5 class="custom-heading"><a href="#"> <span class="ti ti-arrow-circle-left ttm-arrow-box"></span> Find Our Nearest Office</a></h5>
-                                       <i class="flaticon flaticon-house ttm-textcolor-skincolor"></i>
-                                  </div>    
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="ttm-custom-ctabox">
-                                <div class="cta-bg-icon"><span class="flaticon-support"></span></div>
-                                <h3 class="ttm-cta-heading ttm-textcolor-skincolor">Call Us On</h3>
-                                <h5 class="ttm-cta-content">+123 456 789 0012</h5>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="cta_wrapper">
-                                <div class="ttm-quicklink-box">
-                                   <div class="ttm-rightlink-box">
-                                        <i class="flaticon flaticon-clock ttm-textcolor-skincolor"></i>
-                                        <h5 class="custom-heading"><a href="#"> Emergency Restorations <span class="ti ti-arrow-circle-right ttm-arrow-box"></span></a></h5>
-                                  </div>    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="second-footer ttm-textcolor-white">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 widget-area">
-                            <div class="widget widget_text  clearfix">
-                                <h3 class="widget-title"> About Agrotek</h3>
-                                <div class="">
-                                    <p>Agrotek is bundled Html Template for who is passionate about farming and agriculture, gardening services related websites.</p>
-                                    <p>For everyone who is passionate about agro services, farm nurseries, farming & gardening tools suppliers and blogs.</p>
-                                    <hr>
-                                    <a class="ttm-btn ttm-btn-size-sm ttm-btn-color-skincolor btn-inline ttm-icon-btn-right" href="#">Find Us On Map  <i class="ti ti-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 widget-area">
-                            <div class="widget link-widget clearfix">
-                               <h3 class="widget-title">Useful Links</h3>
-                                <ul id="menu-footer-services">
-                                    <li><a href="#">About Us</a></li>
-                                    <li><a href="#">Our Services</a></li>
-                                    <li><a href="#">Nomadic Herding</a></li>
-                                    <li><a href="#">Veterinary Services</a></li>
-                                    <li><a href="#">Commercial Plant</a></li>
-                                    <li><a href="#">Farm Labor Management</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 widget-area">
-                            <div class="widget widget_text clearfix">
-                                <h3 class="widget-title">Recent News</h3>
-                                <ul class="widget-post ttm-recent-post-list">
-                                    <li>
-                                        <a href="single-blog.html"><img src="images/blog/01.jpg" alt="post-img"></a>
-                                        <span class="post-date"><i class="fa fa-calendar"></i>May 01, 2019</span>
-                                        <a href="single-blog.html">Outdoor Vintage Flower Garden Decor</a>
-                                    </li>
-                                    <li>
-                                        <a href="single-blog.html"><img src="images/blog/02.jpg" alt="post-img"></a>
-                                        <span class="post-date"><i class="fa fa-calendar"></i>May 03, 2019</span>
-                                        <a href="single-blog.html">Grow Your Own Yard Garden For Better Life</a>
-                                    </li>
-                                    <li>
-                                        <a href="single-blog.html"><img src="images/blog/03.jpg" alt="post-img"></a>
-                                        <span class="post-date"><i class="fa fa-calendar"></i>May 05, 2019</span>
-                                        <a href="single-blog.html">Rural Infrastructure for Great Agriculture</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 widget-area">
-                            <div class="widget contact-widget">
-                                <h3 class="widget-title">Get in touch</h3>      
-                                <ul class="contact-widget-wrapper">
-                                    <li><i class="fa fa-map-marker"></i>4789 Melmorn Street,Zakila Ton <br> Mashintron Town</li>
-                                    <li><i class="fa fa-phone"></i>(+01) 123 456 7890 </li>
-                                    <li><i class="fa fa-envelope-o"></i><a href="mailto:info@example.com" target="_blank">info@example.com</a></li>
-                                </ul>
-                                <div class="social-icons circle social-hover">
-                                    <ul class="list-inline">
-                                        <li class="social-facebook"><a class="tooltip-top" target="_blank" href="#" data-tooltip="Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                        <li class="social-twitter"><a class="tooltip-top" target="_blank" href="#" data-tooltip="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                        <li class="social-flickr"><a class=" tooltip-top" target="_blank" href="#" data-tooltip="flickr"><i class="fa fa-flickr" aria-hidden="true"></i></a></li>
-                                        <li class="social-linkedin"><a class=" tooltip-top" target="_blank" href="#" data-tooltip="LinkedIn"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="bottom-footer-text ttm-textcolor-white">
-                <div class="container">
-                    <div class="row copyright">
-                        <div class="col-md-12">
-                            <div class="text-center">
-                                <span>Copyright © 2020&nbsp;<a href="#">Agrotek</a> Template by <a href="https://themetechmount.com/" target="_blank">Themetechmount</a></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        <?php
+        include "main/footer.php";
+        ?>
         <!--footer end-->
 
         <!--back-to-top start-->
@@ -1714,22 +1755,22 @@ else{
 
         <!-- Javascript -->
 
-        <script src="js/jquery.min.js"></script>
-        <script src="js/tether.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery.easing.js"></script>    
-        <script src="js/jquery-waypoints.js"></script>    
-        <script src="js/jquery-validate.js"></script> 
-        <script src="js/slick.js"></script>
-        <script src="js/slick.min.js"></script>
-        <script src="js/jquery.prettyPhoto.js"></script>
-        <script src="js/numinate.min6959.js?ver=4.9.3"></script>
-        <script src="js/main.js"></script>
+        <script src="main/js/jquery.min.js"></script>
+        <script src="main/js/tether.min.js"></script>
+        <script src="main/js/bootstrap.min.js"></script>
+        <script src="main/js/jquery.easing.js"></script>    
+        <script src="main/js/jquery-waypoints.js"></script>    
+        <script src="main/js/jquery-validate.js"></script> 
+        <script src="main/js/slick.js"></script>
+        <script src="main/js/slick.min.js"></script>
+        <script src="main/js/jquery.prettyPhoto.js"></script>
+        <script src="main/js/numinate.min6959.js?ver=4.9.3"></script>
+        <script src="main/js/main.js"></script>
 
         <!-- Revolution Slider -->
-        <script src="revolution/js/revolution.tools.min.js"></script>
-        <script src="revolution/js/rs6.min.js"></script>
-        <script src="revolution/js/slider.js"></script>
+        <script src="main/revolution/js/revolution.tools.min.js"></script>
+        <script src="main/revolution/js/rs6.min.js"></script>
+        <script src="main/revolution/js/slider.js"></script>
 
         <!-- Javascript end-->
 
