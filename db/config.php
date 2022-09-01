@@ -9,6 +9,7 @@ $clientSecret = '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';
 // $redirectUri = 'https://aggrotech.herokuapp.com/index.php';
 $redirectUri = 'http://localhost/agrotech-new-/index.php';
 
+
 // create Client Request to access Google API
 $client = new Google_Client();
 $client->setClientId($clientID);
